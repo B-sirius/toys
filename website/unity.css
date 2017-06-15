@@ -1,0 +1,130 @@
+@charset "utf-8";
+/* CSS Document */
+
+a {text-decoration:none;}
+a:link {color:#666;}
+a:visited {color:#666;}
+a:hover {color:black;}
+
+#mainbox {
+	border:0px;
+}
+
+#logo {
+	font:Consolas, monospace;
+	color:#FF0000;
+	font-size:28px;
+}
+
+#textstyle{
+	border-style:none;
+	color:#9A9A9A;
+}
+
+#button_RollToLeft {
+	position:absolute;
+}
+
+#button_style {
+	width:128px;
+	height:128px;
+	color:#FFF;
+	border:none;
+	vertical-align:top;
+	position:relative;
+	top:200px;
+	left:20px;
+	z-index:999;
+	background:url(src/arrowLeft.jpg);
+}
+
+#top {
+	height:60px;
+	width:100%;
+	font:"微软雅黑";
+	font-size:16px;
+	position:fixed;
+	background:#FFFFFF;
+	top:0px;
+	left:0px;
+}
+
+#top table {
+	height:100%;
+	width:1000px;
+	border:0px;	
+}
+
+#banner {
+	height:500px;
+	width:100%;	
+	color:#00FFE3;
+	overflow:hidden;
+}
+
+#banner table {
+	height:100%;
+	width:100%;
+}
+
+#banner img {
+	margin-top:0px;
+}
+
+#content {
+	height:auto;
+	width:100%;
+	color:#999;
+}
+
+#content .title1 {
+	height:200px;
+	background:url(src/title1.jpg);
+	text-align:center;
+	line-height:180px;
+	padding:auto;
+}
+
+#content .title2 {
+	height:200px;
+	background:url(src/title2.jpg);
+	text-align:center;
+	line-height:180px;
+	padding:auto;
+}
+
+#content .display {
+	height:650px;
+	width:1000px;
+	margin:auto;
+	margin-top:30px;
+	margin-bottom:60px;	
+	
+}
+
+#content .display .picture{
+	float:left;
+	margin-top:10px;
+	margin-left:47px;
+	margin-right:47px;
+}
+
+#content .display .picture img {
+	width:400px;
+	height:200px;
+}
+
+#content h1 {
+	color:#FFF;
+}
+#content h3 {
+	text-align:center;
+	color:#333333;
+}
+
+
+#footer {
+	height:200px;
+	width:100%;
+	text-align:center;
+}

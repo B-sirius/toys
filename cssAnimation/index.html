@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>cssAnimation</title>
+</head>
+<style>
+.test {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background: #964DDD;
+    transition: 1s;
+}
+
+.fadeIn {
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 200px;
+    }
+}
+
+.hide {
+    visibility: hidden;
+}
+</style>
+
+<body>
+    <div class="test fadeIn" id="test"></div>
+    <button id="fadeOut">淡出</button>
+    <button id="fadeIn">淡入</button>
+</body>
+
+<script>
+    'use strict';
+    let block = document.getElementById('test');
+
+    let fadeOutBtn = document.getElementById('fadeOut');
+    let fadeInBtn = document.getElementById('fadeIn');
+
+    fadeInBtn.onclick = function() {
+        block.classList.toggle('hide');
+    }
+</script>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="unity.css" />
+<title>视界</title>
+</head>
+
+<body>
+<div id="mainbox">
+  <div id="top">
+    <table align="center">
+        <tr>
+          <th> 
+        <td width="40%"><div id="logo"><b>FAR SIGHT</b></div></td>
+        <td><a href="#games">游戏</a></td>
+        <td><a href="#movies">电影</a></td>
+        <td><a href="">资讯</a></td>  
+        <td>&nbsp;&nbsp;<a id="SearchText" onclick="OpenWeb()">搜索</a>&nbsp;&nbsp;&nbsp;&nbsp;<input id="textstyle" value="Search..." onclick="TextClear()" type="text" /></td>
+        </th>
+        </tr>
+    </table>
+  </div>
+  <div >
+  	<div id="button_RollToLeft" style="filter:alpha(opacity:0);opacity:0;" onmouseover="BuTouMing()"  >
+  		<input name="Search" id="button_style" type="button" onclick="RollToLeft()">
+    </div>
+  <div id="banner">
+    <table cellpadding="0" cellspacing="0" border="0" >
+      <tr>
+        <td id="banner1" valign="top" align="center">
+        	<table cellpadding="2" cellspacing="0" border="0">
+                <tr align="center">
+                  <td><img src = "src/banner4.jpg" height="100%" width="1536" alt=""></td>
+                  <td><img src = "src/banner5.jpg" height="100%" width="1536" alt=""></td>
+                  <td><img src = "src/banner6.jpg" height="100%" width="1536" alt=""></td>
+                </tr>
+         	</table></td>
+        <td id = "banner2" valign = "top"></td>
+      </tr>
+    </table>
+  </div>
+  </div>
+  <div id = "content">
+    <div class="title1">
+      <h1><a name="games">GAMES</a></h1>
+    </div>
+    
+    <h3>游 戏</h3>
+    
+    <div class = "display">
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/game1.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">电子竞技的现在与未来</a><br />
+        <font size="-1">而今的电子竞技正站在前所未有的时代浪尖</font><br />
+     </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/game2.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">不完美的杰作</a><br />
+        <font size="-1">有关《尼尔：机械纪元》的关卡，叙事机制以及情感设计</font>
+      </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/game3.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">Open your mind, Open your eyes</a><br />
+        <font size="-1">1....       2....       3.No.</font>
+     </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/game4.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">艾希,佑希</a><br />
+        <font size="-1">史丹利寓言的又一次复兴</font>
+     </div>
+    
+    
+    </div>
+    
+    <div class = "title2">
+      <h1><a name="movies">MOVIES</a></h1>
+    </div>
+    <div class = "display">
+    <h3>电 影</h3>
+    <div class="picture">
+     	2017-4-18<br />
+        <img src="src/movie1.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">把黑暗交给光明守护</a><br />
+        <font size="-1">我霸占了所有的黑，把自己的白交付予你。 </font><br />
+     </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/movie2.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">EVA到底为什么是神作</a><br />
+        <font size="-1">浅析EVA的时代背景与故事内核</font>
+      </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/movie3.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">歌舞剧的巅峰与落幕</a><br />
+        <font size="-1">I'm singing in the rain...</font>
+     </div>
+     
+     <div class="picture">
+     	2017-4-18<br />
+        <img src="src/movie4.jpg" alt=""/><br />
+        <a href="about:blank" target="_blank">我们无处安放的孤独</a><br />
+        <font size="-1">一个钢琴天才传奇的一生</font>
+     </div>
+    
+    </div>
+  </div>
+  <div id = "footer">
+  <h2><a href="mailto:string97@qq.com">CONTACT US | 联系我们</a></h2>
+  </div>
+</div>
+  
+<script>
+var speed = 1;
+var flag = 0;
+var timer = 0;
+
+banner2.innerHTML=banner1.innerHTML
+
+function Marquee4(){
+	if(timer < 1536 / 5 && flag != 0) {
+		if(banner.scrollLeft <= 0)
+		banner.scrollLeft += banner2.offsetWidth
+		else{
+				banner.scrollLeft-= 5
+		}
+	}
+	if(timer > 1536/5 + 1000){
+		timer = 0;
+		flag = 1;
+	}
+	timer++;
+}
+
+function RollToLeft(){
+	if(timer < 1536 / 5)
+		return;
+	timer = 0;
+}
+
+function TextClear() {
+	if(document.getElementById("textstyle").value == "Search..."){
+		document.getElementById("textstyle").value = "";	
+		return;
+	}
+}
+
+function OpenWeb(){
+	var net = "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&tn=monline_4_dg&wd=" + document.getElementById("textstyle").value;
+	window.open(net);
+}
+
+function BuTouMing(){
+	document.getElementById("button_RollToLeft").style = "filter:alpha(opacity:100);opacity:1;";
+}
+var MyMar4=setInterval(Marquee4,speed)
+banner.onmouseover=function(){
+	clearInterval(MyMar4)
+	document.getElementById("button_RollToLeft").style = "filter:alpha(opacity:50);opacity:0.5;";
+}
+banner.onmouseout=function(){
+	MyMar4=setInterval(Marquee4,speed);
+	document.getElementById("button_RollToLeft").style = "filter:alpha(opacity:0);opacity:0;";
+}
+</script>
+</body>
+</html>

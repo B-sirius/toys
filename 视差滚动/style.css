@@ -1,0 +1,14 @@
+.container {
+    position: relative;
+    perspective: 1px;
+    height: 300px;
+    overflow: auto;
+}
+.bg1 {
+    position: absolute;
+    transform-style: preserve-3d;
+}
+.bg2 {
+    position: absolute;
+    transform: translate3d(-50%, 0, -1px)scale(2);
+}
