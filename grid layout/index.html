@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>grid</title>
+</head>
+<style>
+.container-1 {
+    display: grid;
+    grid-template-columns: 1fr 50px 1fr 1fr;
+    grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line];
+    margin-bottom: 50px;
+}
+
+.container-1 div {
+    color: white;
+    padding: 20px;
+}
+
+.container-1 .item-1 {
+    background: #b03532;
+}
+
+.container-1 .item-2 {
+    background: #33a8a5;
+}
+
+.container-1 .item-3 {
+    background: #30997a;
+}
+
+.container-1 .item-4 {
+    background: #6a478f;
+}
+
+.container-1 .item-5 {
+    background: #da6f2b;
+}
+
+.container-1 .item-6 {
+    background: #3d8bb1;
+}
+
+.container-1 .item-7 {
+    background: #e03f3f;
+}
+
+.container-1 .item-8 {
+    background: #59a627;
+}
+
+.container-1 .item-9 {
+    background: #4464a1;
+}
+
+.container-2 {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
+    grid-template-rows: 100px 100px 100px 100px;
+    grid-template-areas: 'title title title title aside' 'nav main main main aside' 'nav main main main aside' 'footer footer footer footer footer';
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.container-2 .title {
+    grid-area: title;
+    background-color: blue;
+}
+
+.container-2 .nav {
+    grid-area: nav;
+    background-color: yellow;
+}
+
+.container-2 .main {
+    grid-area: main;
+    background-color: gray;
+}
+
+.container-2 .aside {
+    grid-area: aside;
+    background-color: green;
+}
+
+.container-2 .footer {
+    grid-area: footer;
+    background-color: pink;
+}
+
+.container-3 {
+    display: grid;
+    grid-template-columns: 200px;
+    grid-template-rows: 200px;
+    text-align: center;
+    font-size: 30px;
+    grid-auto-columns: 300px;
+    grid-auto-rows: 300px;
+    margin-bottom: 50px;
+}
+
+.container-3 .box1 {
+    background-color: pink;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.container-3 .box2 {
+    background-color: yellow;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.container-3 .box3 {
+    background-color: gray;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.container-3 .box4 {
+    background-color: blue;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.container-4 {
+    display: grid;
+    grid-template-columns: 50px 40px 200px 40px 50px;
+    grid-template-rows: 100px 120px 60px;
+    grid-gap: 10px black;
+}
+</style>
+
+<body>
+    <div class="container-1">
+        <div class="item-1">1</div>
+        <div class="item-2">2</div>
+        <div class="item-3">3</div>
+        <div class="item-4">4</div>
+        <div class="item-5">5</div>
+        <div class="item-6">6</div>
+        <div class="item-7">7</div>
+        <div class="item-8">8</div>
+        <div class="item-9">9</div>
+    </div>
+    <div class="container-2">
+        <div class="title">title</div>
+        <div class="nav">nav</div>
+        <div class="main">main</div>
+        <div class="aside">aside</div>
+        <div class="footer">footer</div>
+    </div>
+    <div class="container-3">
+        <div class="box1">box1</div>
+        <div class="box2">box2</div>
+        <div class="box3">box3</div>
+        <div class="box4">box4</div>
+    </div>
+    <div class="container-4">
+        
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+.container {
+    margin-top: 100px;
+    display: flex;
+}
+
+.piano {
+    display: flex;
+    width: 500px;
+    margin: auto;
+}
+
+.key {
+    flex-grow: 1;
+    height: 200px;
+}
