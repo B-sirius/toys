@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>pasition-demo</title>
+</head>
+<style>
+.svg-container {
+    display: none;
+}
+</style>
+
+<body>
+    <div class="svg-container">
+        <svg t="1498006221836" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11741" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="128">
+            <path id="pathA" d="M448 871.6 448 152.2c0-13.4-10.8-24.2-24.4-24.2l-143.2 0c-13.6 0-24.4 10.8-24.4 24.2l0 719.4c0 13.4 10.8 24.4 24.4 24.4l143.2 0C437.2 896 448 885.2 448 871.6z" p-id="11742" fill="#515151"></path>
+            <path d="M743.6 128l-143.2 0c-13.4 0-24.4 10.8-24.4 24.2l0 719.4c0 13.4 10.8 24.4 24.4 24.4l143.2 0c13.4 0 24.4-10.8 24.4-24.4L768 152.2C768 138.8 757.2 128 743.6 128z" p-id="11743" fill="#515151"></path>
+            <path id="pathB" d="M810.4 465.8 253.6 134.4c-6.8-4-13.8-6.4-21.8-6.4-21.8 0-39.6 18-39.6 40L192 168l0 688 0.2 0c0 22 17.8 40 39.6 40 8.2 0 15-2.8 22.4-6.8l556.2-331c13.2-11 21.6-27.6 21.6-46.2C832 493.4 823.6 477 810.4 465.8z" p-id="10114" fill="#515151"></path>
+        </svg>
+    </div>
+    <canvas id="canvas" width='1024' height="1024"></canvas>
+    <script src="https://unpkg.com/pasition@1.0.0/dist/pasition.js"></script>
+    <script>
+    'use strict';
+    let pathA = document.querySelector('#pathA').getAttribute('d');
+    let pathB = document.querySelector('#pathB').getAttribute('d');
+
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+
+    let stroke = false;
+    /**
+     * 绘制线条
+     * @param  {Array} points  一个点集
+     */
+    let renderCurve = function(ctx, points, color) {
+        ctx.beginPath();
+        ctx.strokeStyle = color || 'black';
+        ctx.moveTo(points[0], points[1]); // 设置了起始点
+        ctx.bezierCurveTo(points[2], points[3], points[4], points[5], points[6], points[7]); // 绘制贝塞尔曲线
+        ctx.stroke();
+    }
+
+    let renderShapes = function(ctx, curves, color) {
+        ctx.beginPath();
+        ctx.fillStyle = color || 'black';
+        ctx.moveTo(curves[0][0], curves[0][1]);
+        curves.forEach((points) => {
+            ctx.bezierCurveTo(points[2], points[3], points[4], points[5], points[6], points[7]);
+        });
+
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    let animate = function(arr, indexA, indexB) {
+        pasition.animate({
+            from: arr[indexA],
+            to: arr[indexB],
+            time: 1500,
+            progress: function(shapes) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                shapes.forEach((curves) => {
+                    if (stroke) {
+                        curves.forEach((curve) => {
+                            renderCurve(ctx, curve, '#006df0');
+                        });
+                    } else {
+                        renderShapes(ctx, curves, '#006df0');
+                    }
+                });
+            },
+            end: function() {
+                setTimeout(() => {
+                    indexA++;
+                    indexB++;
+                    if (indexA === arr.length) {
+                        indexA = 0;
+                    }
+                    if (indexB === arr.length) {
+                        indexB = 0;
+                    }
+                    animate(arr, indexA, indexB);
+                }, 1500);
+            }
+        })
+    }
+
+    animate([pathA, pathB], 0, 1);
+    </script>
+</body>
+
+</html>
