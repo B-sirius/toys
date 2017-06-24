@@ -11,11 +11,16 @@ html, body {
     margin: 0;
 }
 .container {
+    position: relative;
+    display: flex;
     height: 100%;
     overflow: hidden;
     background: #000;
 }
 .space-canvas {
+    position: absolute;
+}
+.star-canvas {
     margin: auto;
 }
 </style>
@@ -23,6 +28,7 @@ html, body {
 <body>
     <div class="container">
         <canvas class="space-canvas" id="spaceCanvas"></canvas>
+        <canvas class="star-canvas" id="starCanvas" width="600" height="600"></canvas>
     </div>
     <script src="script.js"></script>
 </body>
