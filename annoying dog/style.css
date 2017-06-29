@@ -1,0 +1,127 @@
+@font-face {
+    font-family: '8bit';
+    src: url('8bitoperator.ttf');
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: '8bit';
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+.space-canvas {
+    position: absolute;
+}
+
+.dog {
+    width: 200px;
+    height: 160px;
+    background: url('img/dog.gif') no-repeat;
+    background-size: cover;
+    margin: auto;
+    margin-top: 50px;
+    animation: 3s linear slidedown;
+}
+
+@keyframes slidedown {
+    0% {
+        transform: translate(0, -320px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 100px;
+    right: 100px;
+    top: 210px;
+    bottom: 50px;
+}
+
+.text-container {
+    color: #fff;
+    font-size: 32px;
+    line-height: 60px;
+}
+
+.choice-container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.choice-container .choice-list {
+    margin: auto 0;
+}
+
+.choice-container .choice-list .choice {
+    display: inline-block;
+    color: #fff;
+    font-size: 24px;
+    line-height: 40px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.choice-container .choice-list .choice:focus,
+.choice-container .choice-list .choice:hover {
+    color: #5BE600;
+    outline: none;
+}
+
+@media (max-width: 400px) {
+    .dog {
+        width: 100px;
+        height: 80px;
+        margin-top: 20px;
+        animation: 3s linear slidedown;
+    }
+    @keyframes slidedown {
+        0% {
+            transform: translate(0, -160px);
+        }
+        100% {
+            transform: translate(0, 0);
+        }
+    }
+    .content {
+        left: 20px;
+        right: 20px;
+        top: 100px;
+        bottom: 20px;
+    }
+    .text-container {
+        color: #fff;
+        font-size: 20px;
+        line-height: 30px;
+    }
+    .choice-container .choice-list .choice {
+        display: inline-block;
+        color: #fff;
+        font-size: 16px;
+        line-height: 20px;
+        margin: 20px 0;
+        cursor: pointer;
+    }
+}
