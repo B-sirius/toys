@@ -74,5 +74,76 @@ let renderBackground = (() => {
     })();
 })();
 
+// 初始化对话系统
+let initQA = (() => {
+    let textContainer = document.getElementById('textContainer');
+    let choiceList = document.getElementById('choiceList');
 
+    // 测试数据
+    let testData = [{
+        type: 'choice',
+        text: 'who i am?',
+        choices: [{
+            text: 'A. dog',
+            answer: 'Yep.'
+        }, {
+            text: 'B. god',
+            answer: 'Sorry, but god has his girl.'
+        }, {
+            text: 'C. cat',
+            answer: 'A cat with a dog face, that\'s cool'
+        }, {
+            text: 'D. sirius',
+            answer: 'Seriously, u know who i am?'
+        }]
+    }, {
+        type: 'text',
+        text: 'Hi there, you are in duohuo studio space!<br>Here are some introduction for you'
+    }, {
+        type: 'text',
+        text: 'ok, so that\'s it'
+    }];
 
+    let dataHandler = {
+        text: function(data) {
+            choiceList.display = 'none';
+
+            textContainer.innerHTML = data.text;
+        },
+        choice: function(data) {
+            textContainer.innerHTML = data.text;
+
+            let fragment = document.createDocumentFragment();
+
+            data.choices.forEach((choice, index) => {
+                let li = document.createElement('li');
+
+                let choiceNode = document.createElement('a');
+
+                choiceNode.tabIndex = index + 1;
+                choiceNode.className = 'choice';
+
+                let choiceText = document.createTextNode(choice.text);
+
+                choiceNode.appendChild(choiceText);
+                li.appendChild(choiceNode);
+                fragment.appendChild(li);
+
+                choiceNode.addEventListener('click', () => {
+                    console.log(choice.answer);
+                });
+            });
+
+            choiceList.appendChild(fragment);
+
+            choiceList.display = 'block';
+        }
+    }
+
+    let showData = function() {
+        let data = testData.shift();
+        dataHandler[data.type](data);
+    }
+
+    showData();
+})();
