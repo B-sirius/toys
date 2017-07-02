@@ -76,25 +76,27 @@ let renderBackground = (() => {
 
 // 初始化对话系统
 let initQA = (() => {
+    let isChoice = false;
+
     let textContainer = document.getElementById('textContainer');
     let choiceList = document.getElementById('choiceList');
 
     // 测试数据
     let testData = [{
         type: 'choice',
-        text: 'who i am?',
+        text: 'what are u looking at bro?',
         choices: [{
-            text: 'A. dog',
-            answer: 'Yep.'
+            choiceText: 'A. dog',
+            text: 'Yep.'
         }, {
-            text: 'B. god',
-            answer: 'Sorry, but god has his girl.'
+            choiceText: 'B. god',
+            text: 'Sorry, but god has his girl.'
         }, {
-            text: 'C. cat',
-            answer: 'A cat with a dog face, that\'s cool'
+            choiceText: 'C. cat',
+            text: 'A cat with a dog face, that\'s cool'
         }, {
-            text: 'D. sirius',
-            answer: 'Seriously, u know who i am?'
+            choiceText: 'D. sirius',
+            text: 'Seriously, u know who i am?'
         }]
     }, {
         type: 'text',
@@ -106,11 +108,15 @@ let initQA = (() => {
 
     let dataHandler = {
         text: function(data) {
-            choiceList.display = 'none';
+            isChoice = false;
+
+            choiceList.style.display = 'none';
 
             textContainer.innerHTML = data.text;
         },
         choice: function(data) {
+            isChoice = true;
+
             textContainer.innerHTML = data.text;
 
             let fragment = document.createDocumentFragment();
@@ -123,14 +129,16 @@ let initQA = (() => {
                 choiceNode.tabIndex = index + 1;
                 choiceNode.className = 'choice';
 
-                let choiceText = document.createTextNode(choice.text);
+                let choiceText = document.createTextNode(choice.choiceText);
 
                 choiceNode.appendChild(choiceText);
                 li.appendChild(choiceNode);
                 fragment.appendChild(li);
 
-                choiceNode.addEventListener('click', () => {
-                    console.log(choice.answer);
+                choiceNode.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    dataHandler.text(choice);
                 });
             });
 
@@ -144,6 +152,35 @@ let initQA = (() => {
         let data = testData.shift();
         dataHandler[data.type](data);
     }
+
+    let initListener = (() => {
+        const SPACE_KEYCODE = 32;
+        const ENTER_KEYCODE = 13;
+
+        let nextData = function(e) {
+            if ((e.type === 'click' || e.keyCode === SPACE_KEYCODE) && !isChoice) {
+                if (testData.length === 0) {
+                    document.body.removeEventListener('keydown', nextData);
+                    document.body.removeEventListener('click', nextData);
+                    return;
+                }
+
+                showData();
+            }
+        }
+        document.body.addEventListener('keydown', nextData);
+        document.body.addEventListener('click', nextData);
+
+        let makeChoice = function(e) {
+            if (isChoice && e.keyCode === ENTER_KEYCODE) {
+                let el = document.activeElement;
+                if (el.className = 'choice') {
+                    el.click();
+                }
+            }
+        }
+        document.body.addEventListener('keydown', makeChoice);
+    })();
 
     showData();
 })();
