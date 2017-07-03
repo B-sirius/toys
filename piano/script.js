@@ -4,7 +4,7 @@ Window.AudioContext = Window.AudioContext || Window.webkitAudioContext;
 let audioCtx = new AudioContext();
 
 (() => {
-    let keyFrequency = [246.94, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88];
+    let keyFrequency = [241.94, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88];
     let keyCodeList = [186, 76, 75, 74, 70, 68, 83, 65];
 
     let Key = function(el, keyCode, frequency) {

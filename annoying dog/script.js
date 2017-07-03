@@ -1,6 +1,4 @@
 'use strict';
-
-'use strict';
 window.requestAnimationFrame = window.requestAnimationFrame || function(fn) {
     setTimeout(fn, 17);
 };
