@@ -20,6 +20,10 @@ a {
     text-decoration: none;
 }
 
+p {
+    margin: 0;
+}
+
 .container {
     position: relative;
     height: 100%;
@@ -38,6 +42,7 @@ a {
     background-size: cover;
     margin: auto;
     margin-top: 50px;
+    margin-bottom: 30px;
     animation: 3s linear slidedown;
 }
 
@@ -63,7 +68,10 @@ a {
 }
 
 .text-container {
-    color: #fff;
+    color: #fff;   
+}
+
+.text-container .text {
     font-size: 32px;
     line-height: 60px;
 }

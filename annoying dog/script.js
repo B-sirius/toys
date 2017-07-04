@@ -79,30 +79,48 @@ let initQA = (() => {
     let textContainer = document.getElementById('textContainer');
     let choiceList = document.getElementById('choiceList');
 
+    let renderText = function(text) {
+        let textNode = document.createElement('p');
+        textNode.className = 'text';
+        textContainer.appendChild(textNode);
+
+        text = text.split('');
+        let interval = setInterval(() => {
+            if (text.length === 0) {
+                clearInterval(interval);
+                return;
+            }
+            let letter = text.shift();
+            textNode.innerHTML += letter;
+        }, 50);
+    };
+
     // 测试数据
-    let testData = [{
-        type: 'choice',
-        text: 'what are u looking at bro?',
-        choices: [{
-            choiceText: 'A. dog',
-            text: 'Yep.'
+    let testData = [
+        {
+            type: 'choice',
+            text: 'what are u looking at bro?',
+            choices: [{
+                choiceText: 'A. dog',
+                text: 'Yep.'
+            }, {
+                choiceText: 'B. god',
+                text: 'Sorry, but god has his girl.'
+            }, {
+                choiceText: 'C. cat',
+                text: 'A cat with a dog face, that\'s cool'
+            }, {
+                choiceText: 'D. sirius',
+                text: 'Seriously, u know who i am?'
+            }]
         }, {
-            choiceText: 'B. god',
-            text: 'Sorry, but god has his girl.'
+            type: 'text',
+            text: 'Ok, kid, so what we are going to do?'
         }, {
-            choiceText: 'C. cat',
-            text: 'A cat with a dog face, that\'s cool'
-        }, {
-            choiceText: 'D. sirius',
-            text: 'Seriously, u know who i am?'
-        }]
-    }, {
-        type: 'text',
-        text: 'Hi there, you are in duohuo studio space!<br>Here are some introduction for you'
-    }, {
-        type: 'text',
-        text: 'ok, so that\'s it'
-    }];
+            type: 'text',
+            text: 'Cant speak? Fine. Good.'
+        }
+    ];
 
     let dataHandler = {
         text: function(data) {
@@ -110,12 +128,14 @@ let initQA = (() => {
 
             choiceList.style.display = 'none';
 
-            textContainer.innerHTML = data.text;
+            textContainer.innerHTML = '';
+
+            renderText(data.text);
         },
         choice: function(data) {
             isChoice = true;
 
-            textContainer.innerHTML = data.text;
+            renderText(data.text);
 
             let fragment = document.createDocumentFragment();
 
