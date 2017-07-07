@@ -4,7 +4,6 @@ let Clicker = function(imgURL, title) {
     this.imgURL = imgURL;
     this.title = title;
     this.count = 0;
-
 }
 
 // 生成一个clicker元素
@@ -42,10 +41,10 @@ Clicker.prototype._initCount = function(clickEl, count) {
 }
 
 let clickerData = [{
-    imgURL: './img/cat1.jpg',
+    imgURL: '../img/cat1.jpg',
     title: '黑老大'
 }, {
-    imgURL: './img/cat2.jpg',
+    imgURL: '../img/cat2.jpg',
     title: '蓝珠子'
 }]
 
