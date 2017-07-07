@@ -1,0 +1,52 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+}
+
+.clicker-list {
+    width: 200px;
+    height: 100%;
+    list-style: none;
+    overflow: hidden;
+    border-right: 2px solid #ddd;
+    margin-right: 20px;
+}
+
+.clicker-item {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.clicker-item .btn {
+    display: block;
+    line-height: 40px;
+    padding-left: 20px;
+}
+
+.clicker-container {
+    flex-grow: 1;
+}
+
+.img {
+    width: 300px;
+    vertical-align: top;
+    margin-right: 20px;
+}
+
+.count {
+    font-size: 32px;
+}
