@@ -13,8 +13,28 @@
         </ul>
         <div id="clickerContainer" class="clicker-container">
             <h2 id="clickerTitle" class="title"></h2>
-            <img id="clickerImg" class="img">
-            <span id="clickerCount" class="count"></span>
+            <div class="clicker-content">
+                <img id="clickerImg" class="img">
+                <span id="clickerCount" class="count"></span>
+                <div class="control-container">
+                    <button id="toggleControlBtn" class="btn">admin</button>
+                    <div id="showContainer" class="show-container hide">
+                        <ul class="input-list">
+                            <li>title:
+                                <input id="titleInput" type="text">
+                            </li>
+                            <li>URL:
+                                <input id="urlInput" type="text">
+                            </li>
+                            <li>count:
+                                <input id="countInput" type="text">
+                            </li>
+                        </ul>
+                        <button id="confirmBtn" class="btn">confirm</button>
+                        <button id="cancelBtn" class="btn">cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

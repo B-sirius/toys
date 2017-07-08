@@ -11,6 +11,7 @@ let model = {
         title: '蓝珠子'
     }],
     currIndex: 0,
+    showControlView: false
 };
 
 let octopus = {
@@ -18,6 +19,7 @@ let octopus = {
         model.currIndex = index;
 
         clickerView.renderClicker();
+        controlView.render();
     },
     getCurrClicker: function() {
         let index = model.currIndex;
@@ -29,14 +31,42 @@ let octopus = {
         model.clickerData[index].count++;
 
         clickerView.updateCount();
+        controlView.render();
     },
     getCount: function() {
         let index = model.currIndex;
 
         return model.clickerData[index].count;
     },
+    getIndex: function() {
+        return mdoel.currIndex;
+    },
     getClickers: function() {
         return model.clickerData;
+    },
+    setData: function(data) {
+        let oldData = this.getCurrClicker();
+        
+        for (let prop in oldData) {
+            oldData[prop] = data[prop];
+        }
+
+        let index = model.currIndex;
+        let title = data.title;
+        listView.render(index, title);
+        clickerView.renderClicker();
+    },
+    resetData: function() {
+        controlView.render();
+    },
+    toggleControl: function() {
+        model.showControlView = !model.showControlView;
+
+        if (model.showControlView) {
+            controlView.show();
+        } else {
+            controlView.hide();
+        }
     }
 };
 
@@ -48,6 +78,9 @@ let listView = {
         let clickerList = document.getElementById('clickerList');
         let clickerContainer = document.getElementById('clickerContainer');
 
+        this.btnList = {};
+
+        let self = this;
         clickerData.forEach((data, index) => {
             let title = data.title;
 
@@ -57,6 +90,7 @@ let listView = {
             let btn = document.createElement('a');
             btn.className = 'btn';
             btn.textContent = title;
+            self.btnList[index] = btn;
 
             clickerItem.appendChild(btn);
             fragment.appendChild(clickerItem);
@@ -67,6 +101,9 @@ let listView = {
         });
 
         clickerList.appendChild(fragment);
+    },
+    render: function(index, text) {
+        this.btnList[index].textContent = text;
     }
 }
 
@@ -96,5 +133,58 @@ let clickerView = {
     }
 }
 
-listView.init();
-clickerView.init();
+let controlView = {
+    init: function() {
+        this.toggleControlBtn = document.getElementById('toggleControlBtn');
+        this.showContainer = document.getElementById('showContainer');
+
+        this.titleInput = document.getElementById('titleInput');
+        this.urlInput = document.getElementById('urlInput');
+        this.countInput = document.getElementById('countInput');
+
+        this.confirmBtn = document.getElementById('confirmBtn');
+        this.cancelBtn = document.getElementById('cancelBtn');
+
+        this.render();
+
+        let self = this;
+        this.toggleControlBtn.addEventListener('click', octopus.toggleControl);
+        this.confirmBtn.addEventListener('click', () => {
+            let data = self._getData();
+            octopus.setData(data);
+        });
+        this.cancelBtn.addEventListener('click', octopus.resetData);
+    },
+    render: function() {
+        let data = octopus.getCurrClicker();
+
+        let {count, imgURL, title} = data;
+
+        this.titleInput.value = title;
+        this.urlInput.value = imgURL;
+        this.countInput.value = count;
+    },
+    _getData: function() {
+        let title = this.titleInput.value;
+        let imgURL = this.urlInput.value;
+        let count = this.countInput.value;
+
+        return {
+            count,
+            imgURL,
+            title
+        };
+    },
+    show: function() {
+        this.showContainer.classList.remove('hide'); 
+    },
+    hide: function() {
+        this.showContainer.classList.add('hide'); 
+    }
+}
+
+let init = (() => {
+    listView.init();
+    clickerView.init();
+    controlView.init();
+})();

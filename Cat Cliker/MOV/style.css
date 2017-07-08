@@ -9,6 +9,7 @@ body {
 ul {
     padding: 0;
     margin: 0;
+    list-style: none;
 }
 
 .container {
@@ -19,7 +20,6 @@ ul {
 .clicker-list {
     width: 200px;
     height: 100%;
-    list-style: none;
     overflow: hidden;
     border-right: 2px solid #ddd;
     margin-right: 20px;
@@ -41,12 +41,26 @@ ul {
     flex-grow: 1;
 }
 
-.img {
+.clicker-content .img {
     width: 300px;
     vertical-align: top;
     margin-right: 20px;
 }
 
-.count {
+.clicker-content .count {
     font-size: 32px;
+    margin-right: 20px;
+    vertical-align: top;
+}
+
+.clicker-content .control-container {
+    display: inline-block;
+}
+
+.control-container .input-list > li {
+    margin: 20px;
+}
+
+.control-container .show-container.hide {
+    display: none;
 }
