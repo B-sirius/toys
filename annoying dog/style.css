@@ -135,4 +135,7 @@ p {
         margin: 20px 0;
         cursor: pointer;
     }
+    .choice-container .choice-list .choice.hide {
+        display: none;
+    }
 }

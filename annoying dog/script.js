@@ -1,4 +1,5 @@
 'use strict';
+
 window.requestAnimationFrame = window.requestAnimationFrame || function(fn) {
     setTimeout(fn, 17);
 };
@@ -74,72 +75,86 @@ let renderBackground = (() => {
 
 // 初始化对话系统
 let initQA = (() => {
-    let isChoice = false;
-
-    let textContainer = document.getElementById('textContainer');
-    let choiceList = document.getElementById('choiceList');
-
-    let renderText = function(text) {
-        let textNode = document.createElement('p');
-        textNode.className = 'text';
-        textContainer.appendChild(textNode);
-
-        text = text.split('');
-        let interval = setInterval(() => {
-            if (text.length === 0) {
-                clearInterval(interval);
-                return;
-            }
-            let letter = text.shift();
-            textNode.innerHTML += letter;
-        }, 50);
-    };
-
-    // 测试数据
-    let testData = [
-        {
-            type: 'choice',
-            text: 'what are u looking at bro?',
-            choices: [{
-                choiceText: 'A. dog',
-                text: 'Yep.'
-            }, {
-                choiceText: 'B. god',
-                text: 'Sorry, but god has his girl.'
-            }, {
-                choiceText: 'C. cat',
-                text: 'A cat with a dog face, that\'s cool'
-            }, {
-                choiceText: 'D. sirius',
-                text: 'Seriously, u know who i am?'
-            }]
+    let data = [{
+        type: 'choice',
+        text: 'what are u looking at bro?',
+        choiceList: [{
+            text: 'A. dog',
+            answer: 'Yep.'
         }, {
-            type: 'text',
-            text: 'Ok, kid, so what we are going to do?'
+            text: 'B. god',
+            answer: 'Sorry, but god has his girl.'
         }, {
-            type: 'text',
-            text: 'Cant speak? Fine. Good.'
-        }
-    ];
+            text: 'C. cat',
+            answer: 'A cat with a dog face, that\'s cool'
+        }, {
+            text: 'D. sirius',
+            answer: 'Seriously, u know who i am?'
+        }]
+    }, {
+        type: 'text',
+        text: 'Ok, kid, so what we are going to doooooooooooooooooooo?'
+    }, {
+        type: 'text',
+        text: 'Opppppppppppppppppppppppppppps, that wont happen :).'
+    }];
 
-    let dataHandler = {
-        text: function(data) {
-            isChoice = false;
-
-            choiceList.style.display = 'none';
-
-            textContainer.innerHTML = '';
-
-            renderText(data.text);
+    let textView = {
+        init: function() {
+            this.container = document.getElementById('textContainer');
+            this.interval = null;
         },
-        choice: function(data) {
-            isChoice = true;
+        // 一个个字母得渲染
+        render: function(text) {
+            controller.setRenderState('rendering'); // 设置controller的render状态
+            controller.setCurrText(text); // 设置controller当前正在渲染的文本
 
-            renderText(data.text);
+            let textNode = document.createElement('p');
+            textNode.className = 'text';
+            this.container.appendChild(textNode);
 
+            text = text.split('');
+            this.interval = setInterval(() => {
+                if (text.length === 0) {
+                    clearInterval(this.interval);
+                    this.interval = null;
+
+                    controller.setRenderState('done'); // 设置controller的render状态
+
+                    return;
+                }
+                let letter = text.shift();
+                textNode.innerHTML += letter;
+            }, 50);
+        },
+        // 直接呈现整句话
+        renderAll: function(text) {
+            if (this.interval !== null) {
+                clearInterval(this.interval);
+            }
+
+            this.clearContent();
+
+            let textNode = document.createElement('p');
+            textNode.className = 'text';
+
+            textNode.innerHTML = text;
+            this.container.appendChild(textNode);
+
+        },
+        clearContent: function() {
+            this.container.innerHTML = '';
+        }
+    }
+
+    let choiceView = {
+        init: function() {
+            this.list = document.getElementById('choiceList');
+        },
+        render: function(arr) {
             let fragment = document.createDocumentFragment();
 
-            data.choices.forEach((choice, index) => {
+            arr.forEach((choice, index) => {
                 let li = document.createElement('li');
 
                 let choiceNode = document.createElement('a');
@@ -147,7 +162,7 @@ let initQA = (() => {
                 choiceNode.tabIndex = index + 1;
                 choiceNode.className = 'choice';
 
-                let choiceText = document.createTextNode(choice.choiceText);
+                let choiceText = document.createTextNode(choice.text);
 
                 choiceNode.appendChild(choiceText);
                 li.appendChild(choiceNode);
@@ -155,50 +170,106 @@ let initQA = (() => {
 
                 choiceNode.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    
-                    dataHandler.text(choice);
+
+                    controller.renderHandler.text.call(controller, choice.answer);
                 });
             });
 
-            choiceList.appendChild(fragment);
-
-            choiceList.display = 'block';
+            this.list.appendChild(fragment);
+        },
+        clearContent: function() {
+            this.list.innerHTML = '';
+        },
+        show: function() {
+            this.list.classList.remove('hide');
+        },
+        hide: function() {
+            this.list.classList.add('hide');
         }
     }
 
-    let showData = function() {
-        let data = testData.shift();
-        dataHandler[data.type](data);
-    }
+    let controller = {
+        init: function() {
+            const RENDER_DONE = 'done';
+            const RENDERING = 'rendering';
 
-    let initListener = (() => {
-        const SPACE_KEYCODE = 32;
-        const ENTER_KEYCODE = 13;
+            const SPACE_KEYCODE = 32;
+            const ENTER_KEYCODE = 13;
 
-        let nextData = function(e) {
-            if ((e.type === 'click' || e.keyCode === SPACE_KEYCODE) && !isChoice) {
-                if (testData.length === 0) {
-                    document.body.removeEventListener('keydown', nextData);
-                    document.body.removeEventListener('click', nextData);
+            this.isChoice = false;
+            this.renderState = RENDERING;
+
+            let _self = this;
+            // 绑定点击和按键时的监听
+            let nextData = function(e) {
+                if (_self.renderState === RENDERING) {
+                    _self.renderState = RENDER_DONE;
+
+                    textView.renderAll(_self.currText);
                     return;
                 }
 
-                showData();
-            }
-        }
-        document.body.addEventListener('keydown', nextData);
-        document.body.addEventListener('click', nextData);
+                if ((e.type === 'click' || e.keyCode === SPACE_KEYCODE) && !_self.isChoice) {
+                    if (data.length === 0) {
+                        document.body.removeEventListener('keydown', nextData);
+                        document.body.removeEventListener('click', nextData);
+                        return;
+                    }
 
-        let makeChoice = function(e) {
-            if (isChoice && e.keyCode === ENTER_KEYCODE) {
-                let el = document.activeElement;
-                if (el.className = 'choice') {
-                    el.click();
+                    _self.processData();
+                }
+
+            }
+            document.body.addEventListener('keydown', nextData);
+            document.body.addEventListener('click', nextData);
+
+            let makeChoice = function(e) {
+                if (this.isChoice && e.keyCode === ENTER_KEYCODE) {
+                    let el = document.activeElement;
+                    if (el.className = 'choice') {
+                        el.click();
+                    }
                 }
             }
-        }
-        document.body.addEventListener('keydown', makeChoice);
-    })();
+            document.body.addEventListener('keydown', makeChoice);
+        },
+        processData: function() {
+            let item = data.shift();
+            this.renderHandler[item.type].call(this, item);
+        },
+        renderHandler: {
+            // 若是直接调用，this指向的不是controller，调用时需手动指明this
+            text: function(item) {
+                this.isChoice = false;
 
-    showData();
+                let text = item.text || item;
+
+                choiceView.hide();
+                choiceView.clearContent();
+                textView.clearContent();
+                textView.render(text);
+            },
+            choice: function(item) {
+                this.isChoice = true;
+
+                textView.clearContent();
+                textView.render(item.text);
+                choiceView.clearContent();
+                choiceView.render(item.choiceList);
+                choiceView.show();
+            }
+        },
+        setRenderState: function(state) {
+            this.renderState = state;
+        },
+        setCurrText: function(text) {
+            this.currText = text;
+        }
+    }
+
+    textView.init();
+    choiceView.init();
+    controller.init();
+
+    controller.processData();
 })();
