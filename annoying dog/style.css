@@ -43,7 +43,7 @@ p {
     margin: auto;
     margin-top: 50px;
     margin-bottom: 30px;
-    animation: 3s linear slidedown;
+    animation: 1.5s linear slidedown;
 }
 
 @keyframes slidedown {
@@ -63,7 +63,7 @@ p {
     width: 800px;
     left: 100px;
     right: 100px;
-    top: 210px;
+    top: 250px;
     bottom: 50px;
 }
 
@@ -83,6 +83,10 @@ p {
 
 .choice-container .choice-list {
     margin: auto 0;
+}
+
+.choice-container .choice-list.hide {
+    display: none;
 }
 
 .choice-container .choice-list .choice {
@@ -105,7 +109,7 @@ p {
         width: 100px;
         height: 80px;
         margin-top: 20px;
-        animation: 3s linear slidedown;
+        animation: 1.5s linear slidedown;
     }
     @keyframes slidedown {
         0% {
@@ -127,6 +131,9 @@ p {
         font-size: 20px;
         line-height: 30px;
     }
+    .choice-container .choice-list.hide {
+        display: none;
+    }
     .choice-container .choice-list .choice {
         display: inline-block;
         color: #fff;
@@ -134,8 +141,5 @@ p {
         line-height: 20px;
         margin: 20px 0;
         cursor: pointer;
-    }
-    .choice-container .choice-list .choice.hide {
-        display: none;
     }
 }

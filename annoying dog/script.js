@@ -104,7 +104,10 @@ let initQA = (() => {
             this.container = document.getElementById('textContainer');
             this.interval = null;
         },
-        // 一个个字母得渲染
+        /**
+         * 一个个字母地渲染
+         * @param  string   text 需要渲染的字符串
+         */
         render: function(text) {
             controller.setRenderState('rendering'); // 设置controller的render状态
             controller.setCurrText(text); // 设置controller当前正在渲染的文本
@@ -133,6 +136,8 @@ let initQA = (() => {
                 clearInterval(this.interval);
             }
 
+            controller.setRenderState('done'); // 设置controller的render状态
+
             this.clearContent();
 
             let textNode = document.createElement('p');
@@ -140,7 +145,6 @@ let initQA = (() => {
 
             textNode.innerHTML = text;
             this.container.appendChild(textNode);
-
         },
         clearContent: function() {
             this.container.innerHTML = '';
@@ -202,29 +206,29 @@ let initQA = (() => {
             let _self = this;
             // 绑定点击和按键时的监听
             let nextData = function(e) {
-                if (_self.renderState === RENDERING) {
-                    _self.renderState = RENDER_DONE;
+                if (e.type === 'click' || e.keyCode === SPACE_KEYCODE) {
+                    // 如果文本还在渲染中
+                    if (_self.renderState === RENDERING) {
+                        textView.renderAll(_self.currText);
+                        return;
+                    }
 
-                    textView.renderAll(_self.currText);
-                    return;
-                }
-
-                if ((e.type === 'click' || e.keyCode === SPACE_KEYCODE) && !_self.isChoice) {
                     if (data.length === 0) {
                         document.body.removeEventListener('keydown', nextData);
                         document.body.removeEventListener('click', nextData);
                         return;
                     }
 
-                    _self.processData();
+                    if (!_self.isChoice) {
+                        _self.processData();
+                    }
                 }
-
             }
             document.body.addEventListener('keydown', nextData);
             document.body.addEventListener('click', nextData);
 
             let makeChoice = function(e) {
-                if (this.isChoice && e.keyCode === ENTER_KEYCODE) {
+                if (_self.isChoice && e.keyCode === ENTER_KEYCODE) {
                     let el = document.activeElement;
                     if (el.className = 'choice') {
                         el.click();
@@ -252,15 +256,23 @@ let initQA = (() => {
             choice: function(item) {
                 this.isChoice = true;
 
-                textView.clearContent();
-                textView.render(item.text);
+                let textRenderDone = function() {
+                    choiceView.show.call(choiceView);
+                }
+
                 choiceView.clearContent();
                 choiceView.render(item.choiceList);
-                choiceView.show();
+                textView.clearContent();
+                textView.render(item.text, textRenderDone);
             }
         },
         setRenderState: function(state) {
             this.renderState = state;
+
+            // 如果文本渲染完成且这是一个选项，则展示所有选项
+            if (this.renderState === 'done' && this.isChoice) {
+                choiceView.show();
+            }
         },
         setCurrText: function(text) {
             this.currText = text;
