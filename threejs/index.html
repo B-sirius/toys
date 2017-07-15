@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+
+<head>
+    <meta charset="UTF-8">
+    <title>threejs</title>
+</head>
+
+<body>
+    <canvas id="canvas" width='500' height='500'></canvas>
+    <script src="//cdn.bootcss.com/three.js/r83/three.js"></script>
+    <script>
+    'use strict';
+    let canvas = document.getElementById('canvas');
+
+    // 渲染器
+    let render = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+    });
+
+    // 设置背景颜色
+    render.setClearColor('#616161');
+
+    // 场景
+    let scene = new THREE.Scene();
+
+    // 摄像机
+    let camera = new THREE.PerspectiveCamera(60, 1, 1, 1000);
+    camera.position.set(30, 40, 120);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    scene.add(camera);
+
+    let ambientLight = new THREE.AmbientLight('#fff');
+    scene.add(ambientLight);
+
+    let directionLight = new THREE.DirectionalLight('#D6D6D6');
+    directionLight.position.set(1, 2, 3);
+    scene.add(directionLight);
+
+    // 物体
+    let cube = new THREE.Mesh(new THREE.CubeGeometry(30, 60 , 40),
+            new THREE.MeshPhongMaterial({
+                color: '#757575'
+            })
+    );
+    scene.add(cube);
+
+    render.render(scene, camera);
+    </script>
+</body>
+
+</html>
