@@ -21,6 +21,9 @@
 
     // 设置背景颜色
     render.setClearColor('#616161');
+    // 渲染阴影
+    render.shadowMap.enabled = true;
+    render.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // 场景
     let scene = new THREE.Scene();
@@ -31,20 +34,42 @@
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
+    // 环境光
     let ambientLight = new THREE.AmbientLight('#fff');
     scene.add(ambientLight);
 
+    // 平行光
     let directionLight = new THREE.DirectionalLight('#D6D6D6');
-    directionLight.position.set(1, 2, 3);
+    directionLight.position.set(10, 40, -10);
+    directionLight.castShadow = true;
+    directionLight.shadow.mapSize.width = 2048;
+    directionLight.shadow.mapSize.height = 2048;
+
     scene.add(directionLight);
 
+    let lightCameraHelper = new THREE.CameraHelper(directionLight.shadow.camera);
+    scene.add(lightCameraHelper);
+
     // 物体
-    let cube = new THREE.Mesh(new THREE.CubeGeometry(30, 60 , 40),
-            new THREE.MeshPhongMaterial({
-                color: '#757575'
-            })
-    );
+    let cubeGeometry = new THREE.CubeGeometry(30, 60 , 40); // 几何形状
+    let cubeMaterial = new THREE.MeshPhongMaterial({color: '#757575'}); // 材质
+    let cube = new THREE.Mesh(cubeGeometry, cubeMaterial); // 两者才能构造一个物体
+    cube.castShadow = true;
+    cube.position.set(0, 0, 0);
+
     scene.add(cube);
+
+    // 平面
+    let plane = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), 
+        new THREE.MeshLambertMaterial({
+            color: '#03E854'
+        })
+    );
+    plane.rotation.x = -Math.PI / 2;
+    plane.position.set(0, -30, 0);
+    plane.receiveShadow = true;
+
+    scene.add(plane);
 
     render.render(scene, camera);
     </script>
