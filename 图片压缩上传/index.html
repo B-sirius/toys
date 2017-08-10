@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片压缩上传</title>
+</head>
+<body>
+    <input id="file" type="file" value="选择图片">
+    <input id="download" type="button" value="下载">
+    <canvas id="canvas" width="0" height="0"></canvas>
+</body>
+<script>
+    'use strict';
+
+    let imgFile = document.querySelector('#file');
+
+    let fileReader = new FileReader();
+    let img = new Image();
+
+    //所选择的文件对象
+    let file = null;
+
+    imgFile.addEventListener('change', function(e) {
+        file = e.target.files[0];
+        console.log(file);
+        if (file.type.indexOf('image') === 0) {
+            fileReader.readAsDataURL(file); // 读取文件
+        }
+    })
+
+    fileReader.onload = function(e) { // 读取完成
+        console.log(e);
+        img.src = e.target.result; // 这是一个data:URL格式的字符串(base64编码）
+    }
+
+
+    let canvas = document.querySelector('#canvas');
+    let context = canvas.getContext('2d');
+
+    img.onload = function() {
+        let originWidth = img.width;
+        let originHeight = img.height;
+
+        let maxWidth = 400;
+        let maxHeight = 400;
+
+        let targetWidth = originWidth;
+        let targetHeight = originHeight;
+
+        if (originHeight > maxHeight || originWidth > maxWidth) {
+            if (originWidth / originHeight > maxWidth / maxHeight) {
+                targetWidth = maxWidth;
+                targetHeight = Math.round((maxWidth / originWidth) * originHeight);
+            } else {
+                targetHeight = maxHeight;
+                targetWidth = Math.round((maxHeight / originHeight) * originWidth);
+            }
+        }
+
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        context.clearRect(0, 0, targetWidth, targetHeight);
+
+        context.drawImage(img, 0, 0, targetWidth, targetHeight);
+    }
+
+    let downloadBtn = document.querySelector('#download');
+    downloadBtn.addEventListener('click', function() {
+        let src = canvas.toDataURL(file.type);
+
+        let aLink = document.createElement('a');
+        aLink.download = file.name;
+        aLink.href = src;
+
+        aLink.click();
+    });
+
+</script>
+</html>
