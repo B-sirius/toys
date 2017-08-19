@@ -77,26 +77,23 @@ let renderBackground = (() => {
 let initQA = (() => {
     let data = [{
         type: 'choice',
-        text: 'what are u looking at bro?',
+        text: '你对于这头巨兽的出现感到十分震惊，你决定',
         choiceList: [{
-            text: 'A. dog',
-            answer: 'Yep.'
+            text: 'A. ‘来一局昆特牌吧！’',
+            answer: '尽管你已经有意放水，但TA还是输的彻彻底底'
         }, {
-            text: 'B. god',
-            answer: 'Sorry, but god has his girl.'
+            text: 'B. 问问TA喜欢什么',
+            answer: '嗯，TA不喜欢你'
         }, {
-            text: 'C. cat',
-            answer: 'A cat with a dog face, that\'s cool'
+            text: 'C. 使用百万吨重拳',
+            answer: '效果拔群，无敌的 annoying dog 倒下了'
         }, {
-            text: 'D. sirius',
-            answer: 'Seriously, u know who i am?'
+            text: 'D. 无视之',
+            answer: '13. DEAD END'
         }]
     }, {
         type: 'text',
-        text: 'Ok, kid, so what we are going to doooooooooooooooooooo?'
-    }, {
-        type: 'text',
-        text: 'Opppppppppppppppppppppppppppps, that wont happen :).'
+        text: '按照系统TA应该说些什么，但是TA现在好像无FA可说'
     }];
 
     let textView = {
@@ -206,7 +203,7 @@ let initQA = (() => {
             let _self = this;
             // 绑定点击和按键时的监听
             let nextData = function(e) {
-                if (e.type === 'click' || e.keyCode === SPACE_KEYCODE) {
+                if (e.type === 'click' || e.keyCode === SPACE_KEYCODE || e.keyCode === ENTER_KEYCODE) {
                     // 如果文本还在渲染中
                     if (_self.renderState === RENDERING) {
                         textView.renderAll(_self.currText);

@@ -1,13 +1,8 @@
-@font-face {
-    font-family: '8bit';
-    src: url('8bitoperator.ttf');
-}
-
 html,
 body {
     height: 100%;
     margin: 0;
-    font-family: '8bit';
+    font-family: 'Microsoft Yahei', 'PingFang SC','Helvetica Neue','Helvetica','Arial',sans-serif;
 }
 
 ul {
