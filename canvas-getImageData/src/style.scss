@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .input-wrapper {
+        height: 20vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .canvas-wrapper {
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+    }
+}
